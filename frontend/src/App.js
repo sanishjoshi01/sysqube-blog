@@ -1,12 +1,13 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import BlogPost from "./BlogPost";
 
 function App() {
 
   const [text, setText] = useState('');
 
   useEffect(() => {
-    axios.get('http://127.0.0.1:8000/')
+    axios.get('/')
       .then((response) => {
         setText(response.data)
       })
@@ -18,7 +19,7 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <div>{text} aa</div>
+        <BlogPost />
       </header>
     </div>
   );
