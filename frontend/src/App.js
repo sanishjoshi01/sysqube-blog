@@ -4,6 +4,7 @@ import BlogPost from "./BlogPost";
 import Home from "./Home";
 
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import Header from "./Header";
 
 function App() {
   const [posts, setPosts] = useState(null);
@@ -35,14 +36,12 @@ function App() {
   return (
     <Router>
       <div className="App">
-        <a href="/">Home Page</a>
-        <a href="/posts">Post Page</a>
-        <header className="App-header">
-          <Routes>
-            <Route path='/' element={<Home title={title} />} />
-            <Route path='/posts' element={posts && <BlogPost posts={posts} />} />
-          </Routes>
-        </header>
+        <Header />
+        <Routes>
+          <Route path='/' element={<Home title={title} />} />
+          <Route path='/posts' element={posts && <BlogPost posts={posts} />} />
+        </Routes>
+        <footer>footer</footer>
       </div>
     </Router>
   );
