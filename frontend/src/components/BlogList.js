@@ -1,8 +1,16 @@
-import PostCard from "./components/PostCard";
-import FeaturedPostCard from "./components/FeaturedPostCard";
+import PostCard from "./PostCard";
+import FeaturedPostCard from "./FeaturedPostCard";
 
 const BlogList = ({ posts }) => {
     const featuredPost = posts[0];
+
+    const twoGridPost = posts.slice(1, 3).map((post) => {
+        return posts && <PostCard key={post.id} post={post} />
+    });
+
+    const remainingPosts = posts.slice(4).map((post) => {
+        return posts && <PostCard key={post.id} post={post} />
+    })
 
     return (
         <>
@@ -11,14 +19,11 @@ const BlogList = ({ posts }) => {
                 <FeaturedPostCard featuredPost={featuredPost} />
 
                 <div className="lg:grid lg:grid-cols-2">
-                    <PostCard />
-                    <PostCard />
+                    {twoGridPost}
                 </div>
 
                 <div className="lg:grid lg:grid-cols-3">
-                    <PostCard />
-                    <PostCard />
-                    <PostCard />
+                    {remainingPosts}
                 </div>
             </main >
         </>

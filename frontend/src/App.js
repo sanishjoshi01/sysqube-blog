@@ -1,6 +1,6 @@
 import axios from "./API";
 import { useEffect, useState } from "react";
-import BlogList from "./BlogList";
+import BlogList from "./components/BlogList";
 
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Header from "./Header";
