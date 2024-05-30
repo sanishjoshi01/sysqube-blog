@@ -17,7 +17,8 @@ return new class extends Migration
             $table->string('title');
             $table->string('slug');
             $table->string('image');
-            $table->string('description');
+            $table->text('excerpt');
+            $table->text('description');
             // $table->enum('status', ['published', 'draft']);
             $table->timestamp('published_at');
             $table->timestamps();

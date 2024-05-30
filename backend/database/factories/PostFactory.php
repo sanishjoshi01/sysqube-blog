@@ -24,8 +24,8 @@ class PostFactory extends Factory
             'title' => $title,
             'slug' => Str::slug($title, '-'),
             'image' => fake()->image(),
-            'description' => fake()->sentence(),
-            // $table->enum('status', ['published', 'draft']);
+            'excerpt' =>  implode(fake()->paragraphs(2)),
+            'description' => implode(fake()->paragraphs(6)),
         ];
     }
 }

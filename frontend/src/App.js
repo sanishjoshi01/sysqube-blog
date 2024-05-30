@@ -1,10 +1,10 @@
 import axios from "./API";
 import { useEffect, useState } from "react";
-import BlogPost from "./BlogPost";
-import Home from "./Home";
+import BlogList from "./BlogList";
 
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Header from "./Header";
+import Footer from "./Footer";
 
 function App() {
   const [posts, setPosts] = useState(null);
@@ -31,18 +31,16 @@ function App() {
       });
   }, []);
 
-  const title = "Home Page";
-
   return (
     <Router>
-      <div className="App">
+      <section className="px-6 py-8">
         <Header />
         <Routes>
-          <Route path='/' element={<Home title={title} />} />
-          <Route path='/posts' element={posts && <BlogPost posts={posts} />} />
+          <Route path='/' element={posts && <BlogList posts={posts} />} />
+          {/* <Route path='/posts' element={posts && <BlogPost posts={posts} />} /> */}
         </Routes>
-        <footer>footer</footer>
-      </div>
+        <Footer />
+      </section>
     </Router>
   );
 }

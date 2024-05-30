@@ -1,9 +1,4 @@
 const BlogPost = ({ posts }) => {
-
-    let featuredPosts = (
-        <div></div>
-    )
-
     let renderedPosts = posts.slice(1).map(post => (
         <div key={post.id}>
             <div>{post.title}</div>
@@ -13,7 +8,7 @@ const BlogPost = ({ posts }) => {
     return (
         <div>
             {console.log(posts[0].title)}
-            {/* {renderedPosts} */}
+            {renderedPosts}
         </div>
     )
 }
