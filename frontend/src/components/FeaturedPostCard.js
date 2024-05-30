@@ -20,9 +20,12 @@ const FeaturedPostCard = ({ featuredPost }) => {
                         </div>
 
                         <div className="mt-4">
-                            <h1 className="text-3xl">
-                                {featuredPost.title}
-                            </h1>
+                            {/* TODO LINKS  */}
+                            <a href="/">
+                                <h1 className="text-3xl">
+                                    {featuredPost.title}
+                                </h1>
+                            </a>
 
                             <span className="mt-2 block text-gray-400 text-xs">
                                 Published <time>{timeAgo}</time>
@@ -40,11 +43,12 @@ const FeaturedPostCard = ({ featuredPost }) => {
                         <div className="flex items-center text-sm">
                             <img src="./images/lary-avatar.svg" alt="Lary avatar" />
                             <div className="ml-3">
-                                <h5 className="font-bold">Lary Laracore</h5>
+                                <h5 className="font-bold">{featuredPost.user.name}</h5>
                             </div>
                         </div>
 
                         <div className="hidden lg:block">
+                            {/* TODO LINKS  */}
                             <a href="/"
                                 className="transition-colors duration-300 text-xs font-semibold bg-gray-200 hover:bg-gray-300 rounded-full py-2 px-8">Read
                                 More</a>

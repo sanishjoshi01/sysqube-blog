@@ -9,6 +9,6 @@ class PostController extends Controller
 {
     public function index()
     {
-        return Post::latest('published_at')->get();
+        return Post::with('user')->latest('published_at')->get();
     }
 }
