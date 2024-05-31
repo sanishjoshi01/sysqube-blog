@@ -1,4 +1,5 @@
 import { formatDistanceToNow } from 'date-fns';
+import { Link } from 'react-router-dom';
 
 const PostCard = ({ post }) => {
     const timeAgo = formatDistanceToNow(new Date(post.published_at), { addSuffix: true });
@@ -14,15 +15,17 @@ const PostCard = ({ post }) => {
                 <div className="mt-8 flex flex-col justify-between flex-grow">
                     <header>
                         <div className="space-x-2">
-                            <a href="/"
+                            <Link to="/"
                                 className="px-3 py-1 border border-blue-300 rounded-full text-blue-300 text-xs uppercase font-semibold"
-                                style={{ fontSize: '10px' }}>Techniques</a>
+                                style={{ fontSize: '10px' }}>Techniques</Link>
                         </div>
 
                         <div className="mt-4">
-                            <h1 className="text-3xl">
-                                <a href="/">{post.title}</a>
-                            </h1>
+                            <Link to={`/posts/${post.slug}`}>
+                                <h1 className="text-3xl">
+                                    {post.title}
+                                </h1>
+                            </Link>
 
                             <span className="mt-2 block text-gray-400 text-xs">
                                 Published <time>{timeAgo}</time>
@@ -45,10 +48,11 @@ const PostCard = ({ post }) => {
                         </div>
 
                         <div>
-                            <a href="/"
+                            <Link to={`/posts/${post.slug}`}
+
                                 className="transition-colors duration-300 text-xs font-semibold bg-gray-200 hover:bg-gray-300 rounded-full py-2 px-8">
                                 Read More
-                            </a>
+                            </Link>
                         </div>
                     </footer>
                 </div>

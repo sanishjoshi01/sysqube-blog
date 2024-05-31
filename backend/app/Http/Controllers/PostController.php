@@ -11,4 +11,10 @@ class PostController extends Controller
     {
         return Post::with('user')->latest('published_at')->get();
     }
+
+    public function show(Post $post)
+    {
+        $post->load('user');
+        return response()->json($post);
+    }
 }
