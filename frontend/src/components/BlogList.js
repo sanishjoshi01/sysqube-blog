@@ -1,6 +1,7 @@
 import PostCard from "./PostCard";
 import FeaturedPostCard from "./FeaturedPostCard";
-
+import Header from "./Header";
+import Footer from "./Footer";
 
 const BlogList = ({ posts }) => {
     const featuredPost = <FeaturedPostCard key={posts[0].id} featuredPost={posts[0]} />
@@ -15,20 +16,20 @@ const BlogList = ({ posts }) => {
 
     return (
         <>
-            
-                <main className="max-w-6xl mx-auto mt-6 lg:mt-20 space-y-6">
+            <Header />
+            <main className="max-w-6xl mx-auto mt-6 lg:mt-20 space-y-6">
 
-                    {featuredPost}
+                {featuredPost}
 
-                    <div className="lg:grid lg:grid-cols-2">
-                        {twoGridPost}
-                    </div>
+                <div className="lg:grid lg:grid-cols-2">
+                    {twoGridPost}
+                </div>
 
-                    <div className="lg:grid lg:grid-cols-3">
-                        {remainingPosts}
-                    </div>
-                </main >
-            
+                <div className="lg:grid lg:grid-cols-3">
+                    {remainingPosts}
+                </div>
+            </main >
+            <Footer />
         </>
     );
 }

@@ -1,11 +1,10 @@
 import axios from "./API";
 import { useEffect, useState } from "react";
 import BlogList from "./components/BlogList";
-import Header from "./components/Header";
-import Footer from "./components/Footer";
-
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import PostDetail from "./components/PostDetail";
+import Register from "./components/Register";
+import Login from "./components/Login";
 
 function App() {
   const [posts, setPosts] = useState(null);
@@ -32,7 +31,6 @@ function App() {
   return (
     <Router>
       <section className="px-6 py-8">
-        <Header />
         <Routes>
           <Route path='/' element={
             isLoading ?
@@ -43,8 +41,9 @@ function App() {
 
           />
           <Route path="/posts/:slug" element={<PostDetail />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/login" element={<Login />} />
         </Routes>
-        <Footer />
       </section>
     </Router >
   );

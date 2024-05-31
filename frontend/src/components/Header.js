@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 const Header = () => {
     return (
         <>
+
             <nav className="md:flex md:justify-between md:items-center">
                 <div>
                     <Link to="/">
@@ -11,7 +12,7 @@ const Header = () => {
                 </div>
 
                 <div className="mt-8 md:mt-0">
-                    <Link to="/" className="text-xs font-bold uppercase">Home Page</Link>
+                    <Link to="/register" className="text-xs font-bold uppercase">Register</Link>
 
                     <Link to="/" className="bg-blue-500 ml-3 rounded-full text-xs font-semibold text-white uppercase py-3 px-5">
                         Subscribe for Updates
