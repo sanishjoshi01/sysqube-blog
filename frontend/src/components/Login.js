@@ -2,20 +2,38 @@ import { Link } from 'react-router-dom';
 import Footer from "./Footer";
 import axios from "../API";
 import { useState } from 'react';
+import { useAuth } from '../AuthContext';
+import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [error, setError] = useState(null);
+    const { login } = useAuth();
+    const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        const response = await axios.post('/login', {
-            email,
-            password
-        });
+        try {
+            const response = await axios.post('/login', {
+                email,
+                password
+            });
 
-        console.log(response.data);
+            console.log('User Logged in', response.data);
+
+            login(response.data.user, response.data.token);
+            setError(null);
+
+            navigate('/');
+        } catch (error) {
+            if (error.response) {
+                setError(error.response.data.message);
+            } else {
+                setError('An error occurred. Please try again.');
+            }
+        }
     };
 
     return (
@@ -40,12 +58,13 @@ const Login = () => {
                             </label>
                             <div className="mt-2">
                                 <input
+                                    className="block w-full rounded-md border-0 py-1.5 px-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                                     id="email"
                                     name="email"
                                     type="email"
                                     autoComplete="email"
                                     required
-                                    className="block w-full rounded-md border-0 py-1.5 px-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                    value={email}
                                     onChange={(e) => setEmail(e.target.value)}
                                 />
                             </div>
@@ -59,12 +78,13 @@ const Login = () => {
                             </div>
                             <div className="mt-2">
                                 <input
+                                    className="block w-full rounded-md border-0 py-1.5 px-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                                     id="password"
                                     name="password"
                                     type="password"
-                                    autoComplete="current-password"
+                                    autoComplete="password"
                                     required
-                                    className="block w-full rounded-md border-0 py-1.5 px-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                    value={password}
                                     onChange={(e) => setPassword(e.target.value)}
                                 />
                             </div>
@@ -77,6 +97,7 @@ const Login = () => {
                             >
                                 Login
                             </button>
+                            {error && <div>{error}</div>}
                         </div>
                     </form>
 

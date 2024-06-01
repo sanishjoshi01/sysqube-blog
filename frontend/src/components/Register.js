@@ -14,16 +14,18 @@ const Register = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
         try {
             const response = await axios.post('/register', {
                 name,
                 email,
                 password
             })
-            console.log('user registered', response.data);
-            login(response.data.user);
 
-            localStorage.setItem('auth_token', response.data.token);
+            console.log('user registered', response.data);
+            login(response.data.user, response.data.token);
+
+            // localStorage.setItem('auth_token', response.data.token);
             setError(null);
 
             navigate('/');

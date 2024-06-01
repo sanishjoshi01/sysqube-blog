@@ -3,6 +3,7 @@ import { useAuth } from '../AuthContext';
 
 const Header = () => {
     const { user, logout } = useAuth();
+    const username = user ? user.name.charAt(0).toUpperCase() + user.name.slice(1) : '';
 
     return (
         <>
@@ -16,21 +17,28 @@ const Header = () => {
                 <div className="mt-8 md:mt-0">
                     {user ? (
                         <>
-                            <span className="text-xs font-bold uppercase">Hello, {user.name}</span>
-                            <button onClick={logout} className="ml-3 text-xs font-bold uppercase">Logout</button>
+                            <span>Welcome, {username}</span>
+
+                            <button onClick={logout} className="bg-blue-500 ml-3 rounded-full text-xs font-semibold text-white uppercase py-3 px-5">Logout</button>
                         </>
                     ) : (
-                        <Link to="/register" className="text-xs font-bold uppercase">Register</Link>
+                        <>
+                            <Link
+                                to="/register"
+                                className="bg-blue-500 ml-3 rounded-full text-xs font-semibold text-white uppercase py-3 px-5">
+                                Register
+                            </Link>
+                            <Link
+                                to="/login"
+                                className="bg-blue-500 ml-3 rounded-full text-xs font-semibold text-white uppercase py-3 px-5">
+                                Login
+                            </Link>
+                        </>
                     )}
-                    {/* <Link to="/register" className="text-xs font-bold uppercase">Register</Link> */}
-
-                    <Link to="/" className="bg-blue-500 ml-3 rounded-full text-xs font-semibold text-white uppercase py-3 px-5">
-                        Subscribe for Updates
-                    </Link>
                 </div>
             </nav>
 
-            <header className="max-w-xl mx-auto mt-20 text-center">
+            <header className="max-w-xl mx-auto mt-10 text-center">
                 <h1 className="text-4xl">
                     Latest <span className="text-blue-500">SysQube Technology</span> News
                 </h1>
