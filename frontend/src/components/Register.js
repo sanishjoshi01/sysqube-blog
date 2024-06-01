@@ -1,15 +1,39 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Footer from './Footer';
 import axios from '../API';
+import { useState } from 'react';
+import { useAuth } from '../AuthContext';
 
 const Register = () => {
+    const [name, setName] = useState('');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [error, setError] = useState(null);
+    const { login } = useAuth();
+    const navigate = useNavigate();
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        axios.post('/register', {
-            withCredentials: true,
-        })
-            .then(res => console.log(res));
+        try {
+            const response = await axios.post('/register', {
+                name,
+                email,
+                password
+            })
+            console.log('user registered', response.data);
+            login(response.data.user);
+
+            localStorage.setItem('auth_token', response.data.token);
+            setError(null);
+
+            navigate('/');
+        } catch (error) {
+            if (error.response) {
+                setError(error.response.data.errors);
+            } else {
+                setError('An error occured. Please try again');
+            }
+        }
     };
 
     return (
@@ -34,12 +58,14 @@ const Register = () => {
                             </label>
                             <div className="mt-2">
                                 <input
+                                    className="block w-full rounded-md border-0 py-1.5 px-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                                     id="name"
                                     name="name"
-                                    type="name"
-                                    autoComplete="name"
+                                    type="text"
+                                    value={name}
+                                    autoComplete='name'
                                     required
-                                    className="block w-full rounded-md border-0 py-1.5 px-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                    onChange={(e) => setName(e.target.value)}
                                 />
                             </div>
                         </div>
@@ -49,12 +75,14 @@ const Register = () => {
                             </label>
                             <div className="mt-2">
                                 <input
+                                    className="block w-full rounded-md border-0 py-1.5 px-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                                     id="email"
                                     name="email"
                                     type="email"
-                                    autoComplete="email"
+                                    value={email}
+                                    autoComplete='email'
                                     required
-                                    className="block w-full rounded-md border-0 py-1.5 px-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                    onChange={(e) => setEmail(e.target.value)}
                                 />
                             </div>
                         </div>
@@ -67,12 +95,14 @@ const Register = () => {
                             </div>
                             <div className="mt-2">
                                 <input
+                                    className="block w-full rounded-md border-0 py-1.5 px-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                                     id="password"
                                     name="password"
                                     type="password"
-                                    autoComplete="current-password"
+                                    value={password}
+                                    autoComplete='password'
                                     required
-                                    className="block w-full rounded-md border-0 py-1.5 px-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                    onChange={(e) => setPassword(e.target.value)}
                                 />
                             </div>
                         </div>
@@ -84,6 +114,7 @@ const Register = () => {
                             >
                                 Register
                             </button>
+                            {error && <div>{JSON.stringify(error)}</div>}
                         </div>
                     </form>
 

@@ -1,9 +1,11 @@
 import { Link } from 'react-router-dom';
+import { useAuth } from '../AuthContext';
 
 const Header = () => {
+    const { user, logout } = useAuth();
+
     return (
         <>
-
             <nav className="md:flex md:justify-between md:items-center">
                 <div>
                     <Link to="/">
@@ -12,7 +14,15 @@ const Header = () => {
                 </div>
 
                 <div className="mt-8 md:mt-0">
-                    <Link to="/register" className="text-xs font-bold uppercase">Register</Link>
+                    {user ? (
+                        <>
+                            <span className="text-xs font-bold uppercase">Hello, {user.name}</span>
+                            <button onClick={logout} className="ml-3 text-xs font-bold uppercase">Logout</button>
+                        </>
+                    ) : (
+                        <Link to="/register" className="text-xs font-bold uppercase">Register</Link>
+                    )}
+                    {/* <Link to="/register" className="text-xs font-bold uppercase">Register</Link> */}
 
                     <Link to="/" className="bg-blue-500 ml-3 rounded-full text-xs font-semibold text-white uppercase py-3 px-5">
                         Subscribe for Updates

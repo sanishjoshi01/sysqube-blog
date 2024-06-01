@@ -35,7 +35,7 @@ const FeaturedPostCard = ({ featuredPost }) => {
                     </header>
 
                     <div className="text-sm mt-2">
-                        <p>
+                        <p className={`${featuredPost.excerpt.length > 150 ? 'line-clamp-4' : ''}`}>
                             {featuredPost.excerpt}
                         </p>
                     </div>

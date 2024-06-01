@@ -34,30 +34,32 @@ const PostCard = ({ post }) => {
                     </header>
 
                     <div className="text-sm mt-4 flex-grow">
-                        <p>
+                        <p className={`${post.excerpt.length > 150 ? 'line-clamp-3' : ''}`}>
                             {post.excerpt}
                         </p>
                     </div>
 
                     <footer className="flex justify-between items-center mt-8">
                         <div className="flex items-center text-sm">
-                            <img src="./images/lary-avatar.svg" alt="Lary avatar" />
-                            <div className="ml-3">
-                                <h5 className="font-bold">{post.user.name}</h5>
+                            <img src="./images/lary-avatar.svg" alt="Lary avatar" width='40px' />
+                            <div className='ml-3' >
+                                <h5
+                                    className="font-bold">
+                                    {post.user.name}
+                                </h5>
                             </div>
                         </div>
 
                         <div>
                             <Link to={`/posts/${post.slug}`}
-
                                 className="transition-colors duration-300 text-xs font-semibold bg-gray-200 hover:bg-gray-300 rounded-full py-2 px-8">
                                 Read More
                             </Link>
                         </div>
                     </footer>
                 </div>
-            </div>
-        </article>
+            </div >
+        </article >
     );
 }
 
