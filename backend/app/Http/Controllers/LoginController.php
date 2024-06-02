@@ -24,7 +24,7 @@ class LoginController extends Controller
                 $user = Auth::user();
                 $token = $user->createToken('auth_token')->plainTextToken;
                 return response()->json([
-                    'message' => 'User logged in successfully',
+                    'message' => 'User logged in successfully.',
                     'user' => $user,
                     'token' => $token
                 ], 200);
@@ -41,7 +41,7 @@ class LoginController extends Controller
         $request->user()->tokens()->delete();
 
         return response()->json([
-            'message' => 'User logged out successfully'
+            'message' => 'User logged out successfully.'
         ], 200);
     }
 }

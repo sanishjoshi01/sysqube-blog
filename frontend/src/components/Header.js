@@ -1,9 +1,22 @@
 import { Link } from 'react-router-dom';
 import { useAuth } from '../AuthContext';
+import { useState } from 'react';
 
 const Header = () => {
     const { user, logout } = useAuth();
     const username = user ? user.name.charAt(0).toUpperCase() + user.name.slice(1) : '';
+    const [display, setDisplay] = useState(false);
+
+    const handleClick = () => {
+        setDisplay(!display);
+    };
+
+    const handleLogout = () => {
+        const confirmed = window.confirm('Are you sure you want to logout?');
+        if (confirmed) {
+            logout();
+        }
+    };
 
     return (
         <>
@@ -19,7 +32,25 @@ const Header = () => {
                         <>
                             <span>Welcome, {username}</span>
 
-                            <button onClick={logout} className="bg-blue-500 ml-3 rounded-full text-xs font-semibold text-white uppercase py-3 px-5">Logout</button>
+                            <button onClick={handleClick} className="bg-blue-500 ml-3 rounded-full text-xs font-semibold text-white uppercase py-3 px-5">
+                                Your Account
+                            </button>
+                            {display &&
+                                <div id="dropdown" className="z-10 absolute right-0 bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
+                                    <ul className="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDefaultButton">
+
+                                        <li>
+                                            <p className='block px-4 py-2 truncate'>{user.email}</p>
+                                        </li>
+                                        <li>
+                                            <Link href="/" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Dashboard</Link>
+                                        </li>
+                                        <li>
+                                            <button onClick={handleLogout} className="w-full text-left px-4 py-2 hover:bg-red-500 dark:hover:bg-red-500 dark:hover:text-white">Logout</button>
+                                        </li>
+                                    </ul>
+                                </div>
+                            }
                         </>
                     ) : (
                         <>

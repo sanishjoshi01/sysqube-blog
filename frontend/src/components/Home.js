@@ -1,11 +1,34 @@
+import { useEffect, useState } from "react";
 import Footer from "./Footer";
 import Header from "./Header";
 import { Link } from 'react-router-dom';
 
 const Home = () => {
+    const [successMessage, setSuccessMessage] = useState('');
+
+    useEffect(() => {
+        const message = sessionStorage.getItem('successMessage');
+
+        if (message) {
+            setSuccessMessage(message);
+
+            const clearMessageTimeout = setTimeout(() => {
+                setSuccessMessage('');
+                sessionStorage.removeItem('successMessage');
+            }, 3500);
+
+            return () => clearTimeout(clearMessageTimeout);
+        }
+    }, []);
+
     return (
         <>
             <Header />
+            {successMessage && (
+                <div className="py-4 px-6 mb-4 text-green-800 bg-green-200 rounded-lg fixed bottom-1 right-1 z-50" role="alert">
+                    {successMessage}
+                </div>
+            )}
             <section className="relative flex-grow bg-gradient-to-r from-blue-500 via-indigo-600 to-purple-700 flex items-center justify-center text-white my-10">
                 <div className="absolute inset-0 overflow-hidden">
 
@@ -23,6 +46,7 @@ const Home = () => {
                     </Link>
                 </div>
             </section>
+
 
             {/* About Section */}
             <section id="about" className="bg-white py-16">

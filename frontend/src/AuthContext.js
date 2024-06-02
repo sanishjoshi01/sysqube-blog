@@ -10,8 +10,8 @@ export const AuthProvider = ({ children }) => {
     const [token, setToken] = useState(null);
 
     useEffect(() => {
-        const storedUser = localStorage.getItem('user');
-        const storedToken = localStorage.getItem('auth_token');
+        const storedUser = sessionStorage.getItem('user');
+        const storedToken = sessionStorage.getItem('auth_token');
         if (storedUser && storedToken) {
             setUser(JSON.parse(storedUser));
             setToken(storedToken);
@@ -21,8 +21,8 @@ export const AuthProvider = ({ children }) => {
     const login = (userData, authToken) => {
         setUser(userData);
         setToken(authToken);
-        localStorage.setItem('user', JSON.stringify(userData));
-        localStorage.setItem('auth_token', authToken);
+        sessionStorage.setItem('user', JSON.stringify(userData));
+        sessionStorage.setItem('auth_token', authToken);
     };
 
     const logout = async () => {
@@ -35,8 +35,9 @@ export const AuthProvider = ({ children }) => {
 
             setUser(null);
             setToken(null);
-            localStorage.removeItem('user');
-            localStorage.removeItem('auth_token');
+            sessionStorage.removeItem('user');
+            sessionStorage.removeItem('auth_token');
+            // sessionStorage.setItem('successMessage', 'Logged out success');
         } catch (error) {
             console.error('Error logging out:', error);
         }

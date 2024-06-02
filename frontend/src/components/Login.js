@@ -24,6 +24,7 @@ const Login = () => {
             console.log('User Logged in', response.data);
 
             login(response.data.user, response.data.token);
+            sessionStorage.setItem('successMessage', response.data.message);
             setError(null);
 
             navigate('/');

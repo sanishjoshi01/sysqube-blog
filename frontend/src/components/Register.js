@@ -24,13 +24,15 @@ const Register = () => {
 
             console.log('user registered', response.data);
             login(response.data.user, response.data.token);
+            sessionStorage.setItem('successMessage', response.data.message);
 
-            // localStorage.setItem('auth_token', response.data.token);
             setError(null);
 
             navigate('/');
         } catch (error) {
             if (error.response) {
+                console.log(error.response);
+
                 setError(error.response.data.errors);
             } else {
                 setError('An error occured. Please try again');
@@ -116,7 +118,13 @@ const Register = () => {
                             >
                                 Register
                             </button>
-                            {error && <div>{JSON.stringify(error)}</div>}
+                            {error && <div className='text-sm text-red-500 mt-5'>
+                                {
+                                    Object.keys(error).map((key) => (
+                                        <p key={key}>{error[key].join(' ')}</p>
+                                    ))
+                                }
+                            </div>}
                         </div>
                     </form>
 
