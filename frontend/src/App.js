@@ -5,9 +5,10 @@ import Register from "./components/Register";
 import Login from "./components/Login";
 import Home from "./components/Home";
 import NotFound from "./components/NotFound";
-import ProtectedRoute from "./ProtectedRoute";
 import Dashboard from "./components/Dashboard";
 import Create from "./components/Create";
+import GuestRoute from "./GuestRoute";
+import ProtectedRoute from "./ProtectedRoute";
 
 function App() {
 
@@ -19,18 +20,24 @@ function App() {
           <Route path="/posts" element={<BlogList />} />
           <Route path="/posts/:slug" element={<PostDetail />} />
           <Route path="/register" element={
-            <ProtectedRoute>
+            <GuestRoute>
               <Register />
-            </ProtectedRoute>}
+            </GuestRoute>}
           />
           <Route path="/login" element={
-            <ProtectedRoute>
+            <GuestRoute>
               <Login />
-            </ProtectedRoute>}
+            </GuestRoute>}
           />
 
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/create" element={<Create />} />
+          <Route path="/dashboard" element={
+            <ProtectedRoute>
+              <Dashboard />
+            </ProtectedRoute>} />
+          <Route path="/create" element={
+            <ProtectedRoute>
+              <Create />
+            </ProtectedRoute>} />
 
           {/* Not Found Page */}
           < Route path="*" element={<NotFound />} />

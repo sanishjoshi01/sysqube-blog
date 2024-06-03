@@ -9,6 +9,7 @@ import { Link } from 'react-router-dom';
 const Dashboard = () => {
     const [posts, setPosts] = useState([]);
     const { token } = useAuth();
+
     useEffect(() => {
         const fetchData = async () => {
             try {
