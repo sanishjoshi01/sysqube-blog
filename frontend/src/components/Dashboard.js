@@ -9,7 +9,7 @@ import { Link } from 'react-router-dom';
 const Dashboard = () => {
     const [posts, setPosts] = useState([]);
     const { token } = useAuth();
-
+    const [loading, setLoading] = useState(false);
     const [successMessage, setSuccessMessage] = useState('');
 
     useEffect(() => {
@@ -29,6 +29,7 @@ const Dashboard = () => {
 
     useEffect(() => {
         const fetchData = async () => {
+            setLoading(true);
             try {
                 if (token) {
                     const response = await axios.get('/dashboard', {
@@ -38,6 +39,7 @@ const Dashboard = () => {
                     });
                     console.log(response.data)
                     setPosts(response.data);
+                    setLoading(false)
                 }
             } catch (error) {
                 console.error('Error fetching dashboard data:', error);
@@ -66,44 +68,47 @@ const Dashboard = () => {
                     </Link>
                 </div>
                 <div className="grid grid-cols-1 gap-4 mt-3">
-                    <table className="min-w-full bg-white border border-gray-200">
-                        <thead>
-                            <tr className="bg-gray-100">
-                                <th className="border border-gray-200 px-4 py-2">Image</th>
-                                <th className="border border-gray-200 px-4 py-2">Title</th>
-                                <th className="border border-gray-200 px-4 py-2">Description</th>
-                                <th className="border border-gray-200 px-4 py-2">Last Updated</th>
-                                <th className="border border-gray-200 px-4 py-2">Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {posts.map((post) => (
-                                <tr key={post.id}>
-                                    <td className="border border-gray-200 px-4 py-2 flex items-center justify-center">
-                                        {/* Hardcoded for now  */}
-                                        <img src="../images/lary-head.svg" alt="" />
-                                    </td>
-                                    <td className="border border-gray-200 px-4 py-2">{post.title}</td>
-                                    <td className="border border-gray-200 px-4 py-2">{post.description.slice(0, 50)}{post.description.length > 50 ? '...' : ''}</td>
-                                    <td className="border border-gray-200 px-4 py-2">{new Date(post.published_at.slice(0, 11)).toDateString()}</td>
-                                    <td className="border border-gray-200 px-4 py-2 flex items-center justify-center">
-                                        <button
-                                            className="bg-yellow-500 text-white px-4 py-1 rounded-md shadow-md hover:bg-yellow-600"
-                                        // onClick={() => startEditing(post)}
-                                        >
-                                            <MdEditSquare />
-                                        </button>
-                                        <button
-                                            className="bg-red-500 text-white px-4 py-1 ml-2 rounded-md shadow-md hover:bg-red-600"
-                                        // onClick={() => handleDeletePost(post.id)}
-                                        >
-                                            <MdDelete />
-                                        </button>
-                                    </td>
+                    {loading ? <div className="text-center">Loading...</div> :
+                        (<table className="min-w-full bg-white border border-gray-200">
+                            <thead>
+                                <tr className="bg-gray-100">
+                                    <th className="border border-gray-200 px-4 py-2">Image</th>
+                                    <th className="border border-gray-200 px-4 py-2">Title</th>
+                                    <th className="border border-gray-200 px-4 py-2">Description</th>
+                                    <th className="border border-gray-200 px-4 py-2">Last Updated</th>
+                                    <th className="border border-gray-200 px-4 py-2">Actions</th>
                                 </tr>
-                            ))}
-                        </tbody>
-                    </table>
+                            </thead>
+
+                            <tbody>
+                                {posts.map((post) => (
+                                    <tr key={post.id}>
+                                        <td className="border border-gray-200 px-4 py-2 flex items-center justify-center">
+                                            {/* Hardcoded for now  */}
+                                            <img src="../images/lary-head.svg" alt="" />
+                                        </td>
+                                        <td className="border border-gray-200 px-4 py-2">{post.title}</td>
+                                        <td className="border border-gray-200 px-4 py-2">{post.description.slice(0, 50)}{post.description.length > 50 ? '...' : ''}</td>
+                                        <td className="border border-gray-200 px-4 py-2">{new Date(post.published_at.slice(0, 11)).toDateString()}</td>
+                                        <td className="border border-gray-200 px-4 py-2 flex items-center justify-center">
+                                            <button
+                                                className="bg-yellow-500 text-white px-4 py-1 rounded-md shadow-md hover:bg-yellow-600"
+                                            // onClick={() => startEditing(post)}
+                                            >
+                                                <MdEditSquare />
+                                            </button>
+                                            <button
+                                                className="bg-red-500 text-white px-4 py-1 ml-2 rounded-md shadow-md hover:bg-red-600"
+                                            // onClick={() => handleDeletePost(post.id)}
+                                            >
+                                                <MdDelete />
+                                            </button>
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                        )}
                 </div>
             </div >
 
