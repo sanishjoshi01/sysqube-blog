@@ -12,3 +12,6 @@ Route::post('api/register', [RegisterController::class, 'register']);
 Route::post('api/login', [LoginController::class, 'login']);
 Route::post('api/logout', [LoginController::class, 'logout'])
     ->middleware('auth:sanctum');
+
+Route::get('api/dashboard', [PostController::class, 'dashboard'])
+    ->middleware('auth:sanctum');

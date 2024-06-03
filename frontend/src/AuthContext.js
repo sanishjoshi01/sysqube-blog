@@ -37,7 +37,6 @@ export const AuthProvider = ({ children }) => {
             setToken(null);
             sessionStorage.removeItem('user');
             sessionStorage.removeItem('auth_token');
-            // sessionStorage.setItem('successMessage', 'Logged out success');
         } catch (error) {
             console.error('Error logging out:', error);
         }

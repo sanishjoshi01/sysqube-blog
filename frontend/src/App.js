@@ -6,6 +6,8 @@ import Login from "./components/Login";
 import Home from "./components/Home";
 import NotFound from "./components/NotFound";
 import ProtectedRoute from "./ProtectedRoute";
+import Dashboard from "./components/Dashboard";
+import Create from "./components/Create";
 
 function App() {
 
@@ -27,8 +29,11 @@ function App() {
             </ProtectedRoute>}
           />
 
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/create" element={<Create />} />
+
           {/* Not Found Page */}
-          <Route path="*" element={<NotFound />} />
+          < Route path="*" element={<NotFound />} />
         </Routes>
       </section>
     </Router >

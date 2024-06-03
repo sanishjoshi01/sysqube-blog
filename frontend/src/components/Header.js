@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../AuthContext';
 import { useState } from 'react';
 
@@ -6,6 +6,7 @@ const Header = () => {
     const { user, logout } = useAuth();
     const username = user ? user.name.charAt(0).toUpperCase() + user.name.slice(1) : '';
     const [display, setDisplay] = useState(false);
+    const navigate = useNavigate();
 
     const handleClick = () => {
         setDisplay(!display);
@@ -15,6 +16,7 @@ const Header = () => {
         const confirmed = window.confirm('Are you sure you want to logout?');
         if (confirmed) {
             logout();
+            navigate('/');
         }
     };
 
@@ -43,7 +45,12 @@ const Header = () => {
                                             <p className='block px-4 py-2 truncate'>{user.email}</p>
                                         </li>
                                         <li>
-                                            <Link href="/" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Dashboard</Link>
+                                            <Link
+                                                to="/dashboard"
+                                                className={`block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white `}
+                                            >
+                                                Dashboard
+                                            </Link>
                                         </li>
                                         <li>
                                             <button onClick={handleLogout} className="w-full text-left px-4 py-2 hover:bg-red-500 dark:hover:bg-red-500 dark:hover:text-white">Logout</button>
@@ -67,7 +74,7 @@ const Header = () => {
                         </>
                     )}
                 </div>
-            </nav>
+            </nav >
 
             <header className="max-w-xl mx-auto mt-10 text-center">
                 <h1 className="text-4xl">
