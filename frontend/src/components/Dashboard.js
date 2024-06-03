@@ -10,6 +10,23 @@ const Dashboard = () => {
     const [posts, setPosts] = useState([]);
     const { token } = useAuth();
 
+    const [successMessage, setSuccessMessage] = useState('');
+
+    useEffect(() => {
+        const message = sessionStorage.getItem('successMessage');
+
+        if (message) {
+            setSuccessMessage(message);
+
+            const clearMessageTimeout = setTimeout(() => {
+                setSuccessMessage('');
+                sessionStorage.removeItem('successMessage');
+            }, 3500);
+
+            return () => clearTimeout(clearMessageTimeout);
+        }
+    }, []);
+
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -33,6 +50,11 @@ const Dashboard = () => {
     return (
         <>
             <Header />
+            {successMessage && (
+                <div className="py-4 px-6 mb-4 text-green-800 bg-green-200 rounded-lg fixed bottom-1 right-1 z-50" role="alert">
+                    {successMessage}
+                </div>
+            )}
             <div className="container mx-auto p-4">
                 <div className="flex items-center justify-between">
                     <h1 className="text-3xl font-bold mb-4">Dashboard</h1>
@@ -62,7 +84,7 @@ const Dashboard = () => {
                                         <img src="../images/lary-head.svg" alt="" />
                                     </td>
                                     <td className="border border-gray-200 px-4 py-2">{post.title}</td>
-                                    <td className="border border-gray-200 px-4 py-2">{post.description.slice(0, 50)}...</td>
+                                    <td className="border border-gray-200 px-4 py-2">{post.description.slice(0, 50)}{post.description.length > 50 ? '...' : ''}</td>
                                     <td className="border border-gray-200 px-4 py-2">{new Date(post.published_at.slice(0, 11)).toDateString()}</td>
                                     <td className="border border-gray-200 px-4 py-2 flex items-center justify-center">
                                         <button

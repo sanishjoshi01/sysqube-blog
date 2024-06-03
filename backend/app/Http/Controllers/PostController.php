@@ -31,7 +31,33 @@ class PostController extends Controller
         return response()->json($posts);
     }
 
-    // public function create(){
+    public function create(Request $request)
+    {
+        $credentials = $request->validate([
+            'title' => 'required|string',
+            'slug' => 'required|string|unique:posts,slug',
+            'excerpt' => 'required|string',
+            'description' => 'required|string'
+        ]);
 
-    // }
+        $user = Auth::user();
+
+        if ($credentials) {
+            Post::create([
+                'user_id' => $user->id,
+                'title' => $request->title,
+                'slug' => $request->slug,
+                'excerpt' => $request->excerpt,
+                'description' => $request->description,
+            ]);
+
+            return response()->json([
+                'message' => 'Post Created!'
+            ]);
+        }
+
+        return response()->json([
+            'message' => 'Something went wrong'
+        ]);
+    }
 }
