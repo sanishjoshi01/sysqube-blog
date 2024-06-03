@@ -5,13 +5,17 @@ import { useEffect, useState } from "react";
 import { MdEditSquare, MdDelete } from "react-icons/md";
 import { useAuth } from "../AuthContext";
 import { Link } from 'react-router-dom';
+import Edit from "./Edit";
 
 const Dashboard = () => {
     const [posts, setPosts] = useState([]);
     const { token } = useAuth();
     const [loading, setLoading] = useState(false);
     const [successMessage, setSuccessMessage] = useState('');
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [post, setPost] = useState([]);
 
+    //Post Created Message
     useEffect(() => {
         const message = sessionStorage.getItem('successMessage');
 
@@ -27,6 +31,7 @@ const Dashboard = () => {
         }
     }, []);
 
+    //Fetching the Users post
     useEffect(() => {
         const fetchData = async () => {
             setLoading(true);
@@ -37,9 +42,8 @@ const Dashboard = () => {
                             Authorization: `Bearer ${token}`
                         }
                     });
-                    console.log(response.data)
                     setPosts(response.data);
-                    setLoading(false)
+                    setLoading(false);
                 }
             } catch (error) {
                 console.error('Error fetching dashboard data:', error);
@@ -49,6 +53,50 @@ const Dashboard = () => {
         fetchData();
     }, [token]);
 
+    //Deleting a post
+    const handleDeletePost = async (id) => {
+        const confirmed = window.confirm('Are you sure you want to delete this post');
+        if (confirmed) {
+            try {
+                await axios.delete(`/posts/${id}`, {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+                setPosts(posts.filter(post => post.id !== id));
+            } catch (error) {
+                console.error(error);
+            }
+        }
+    };
+
+    //Edit a post
+    const handleEditPost = (id) => {
+        const post = posts.filter(post => post.id === id);
+        setPost(post);
+    }
+
+    const isOpen = () => {
+        setIsModalOpen(true);
+    };
+
+    const closeModal = () => {
+        const confirm = window.confirm('All changed contents will be unsaved! Are you sure?')
+
+        if (confirm) {
+            setIsModalOpen(false);
+        }
+    };
+
+    // const closeModalWithoutConfirmation = () => {
+    //     setIsModalOpen(false);
+    // };
+
+    const handleUpdatePost = (updatedPost) => {
+        setPosts(posts.map(post => post.id === updatedPost.id ? updatedPost : post));
+        setIsModalOpen(false);
+    }
+
     return (
         <>
             <Header />
@@ -57,6 +105,13 @@ const Dashboard = () => {
                     {successMessage}
                 </div>
             )}
+            {isModalOpen &&
+                <Edit
+                    isOpen={isOpen}
+                    onClose={closeModal}
+                    post={post}
+                    onUpdate={handleUpdatePost}
+                />}
             <div className="container mx-auto p-4">
                 <div className="flex items-center justify-between">
                     <h1 className="text-3xl font-bold mb-4">Dashboard</h1>
@@ -93,13 +148,16 @@ const Dashboard = () => {
                                         <td className="border border-gray-200 px-4 py-2 flex items-center justify-center">
                                             <button
                                                 className="bg-yellow-500 text-white px-4 py-1 rounded-md shadow-md hover:bg-yellow-600"
-                                            // onClick={() => startEditing(post)}
+                                                onClick={() => {
+                                                    isOpen();
+                                                    handleEditPost(post.id);
+                                                }}
                                             >
                                                 <MdEditSquare />
                                             </button>
                                             <button
                                                 className="bg-red-500 text-white px-4 py-1 ml-2 rounded-md shadow-md hover:bg-red-600"
-                                            // onClick={() => handleDeletePost(post.id)}
+                                                onClick={() => handleDeletePost(post.id)}
                                             >
                                                 <MdDelete />
                                             </button>
@@ -107,6 +165,7 @@ const Dashboard = () => {
                                     </tr>
                                 ))}
                             </tbody>
+
                         </table>
                         )}
                 </div>

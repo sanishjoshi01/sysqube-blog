@@ -60,4 +60,42 @@ class PostController extends Controller
             'message' => 'Something went wrong'
         ]);
     }
+
+    public function delete(Post $post)
+    {
+        if ($post->user_id !== Auth::id()) {
+            return response()->json([
+                'message' => 'Unauthorized'
+            ], 403);
+        }
+
+        $post->delete();
+
+        return response()->json([
+            'message' => 'Post deleted successfully.'
+        ]);
+    }
+
+    public function update(Request $request, Post $post)
+    {
+        $request->validate([
+            'title' => 'required|string',
+            'slug' => 'required|string|unique:posts,slug,' . $post->id,
+            'excerpt' => 'required|string',
+            'description' => 'required|string'
+        ]);
+
+        if ($post->user_id !== Auth::id()) {
+            return response()->json(['message' => 'Unauthorized'], 403);
+        }
+
+        $post->update([
+            'title' => $request->title,
+            'slug' => $request->slug,
+            'excerpt' => $request->excerpt,
+            'description' => $request->description,
+        ]);
+
+        return response()->json(['message' => 'Post updated successfully', 'post' => $post]);
+    }
 }

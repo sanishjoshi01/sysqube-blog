@@ -18,3 +18,9 @@ Route::get('api/dashboard', [PostController::class, 'dashboard'])
 
 Route::post('api/create', [PostController::class, 'create'])
     ->middleware('auth:sanctum');
+
+Route::delete('api/posts/{post}', [PostController::class, 'delete'])
+    ->middleware('auth:sanctum');
+
+Route::put('api/posts/{post}', [PostController::class, 'update'])
+    ->middleware('auth:sanctum');
