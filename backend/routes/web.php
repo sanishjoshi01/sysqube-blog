@@ -9,7 +9,9 @@ Route::get('api/posts', [PostController::class, 'index']);
 Route::get('api/posts/{post:slug}', [PostController::class, 'show']);
 
 Route::post('api/register', [RegisterController::class, 'register']);
+
 Route::post('api/login', [LoginController::class, 'login']);
+
 Route::post('api/logout', [LoginController::class, 'logout'])
     ->middleware('auth:sanctum');
 

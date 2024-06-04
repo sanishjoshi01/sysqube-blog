@@ -20,18 +20,18 @@ const Login = () => {
                 email,
                 password
             });
-
             console.log('User Logged in', response.data);
 
             login(response.data.user, response.data.token);
             sessionStorage.setItem('successMessage', response.data.message);
             setError(null);
-
             navigate('/');
         } catch (error) {
+            console.log(error)
             if (error.response) {
                 setError(error.response.data.message);
-            } else {
+            }
+            else {
                 setError('An error occurred. Please try again.');
             }
         }
@@ -64,7 +64,7 @@ const Login = () => {
                                     name="email"
                                     type="email"
                                     autoComplete="email"
-                                    required
+                                    // required
                                     value={email}
                                     onChange={(e) => setEmail(e.target.value)}
                                 />
@@ -84,7 +84,7 @@ const Login = () => {
                                     name="password"
                                     type="password"
                                     autoComplete="password"
-                                    required
+                                    // required
                                     value={password}
                                     onChange={(e) => setPassword(e.target.value)}
                                 />
@@ -98,7 +98,7 @@ const Login = () => {
                             >
                                 Login
                             </button>
-                            {error && <div>{error}</div>}
+                            {error && <p className='text-sm text-red-600 mt-5 font-semibold'>{error}</p>}
                         </div>
                     </form>
 
