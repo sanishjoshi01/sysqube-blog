@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('image')->nullable();
             $table->text('excerpt');
             $table->text('description');
-            // $table->enum('status', ['published', 'draft']);
+            $table->enum('status', ['published', 'draft']);
             $table->timestamp('published_at');
             $table->timestamps();
         });

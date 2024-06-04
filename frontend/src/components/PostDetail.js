@@ -49,7 +49,7 @@ const PostDetail = () => {
                 ) : post && <main className="max-w-6xl mx-auto mt-10 lg:mt-20 space-y-6">
                     <article className="max-w-4xl mx-auto lg:grid lg:grid-cols-12 gap-x-10">
                         <div className="col-span-4 lg:text-center lg:pt-14 mb-10">
-                            <img src="../images/illustration-1.png" alt="" className="rounded-xl" />
+                            <img src={`http://127.0.0.1:8000/storage/${post.image}`} alt="" className="rounded-xl" />
 
                             <p className="mt-4 block text-gray-400 text-xs">
                                 Published <time>{formatDistanceToNow(new Date(post.published_at), { addSuffix: true })}</time>
@@ -81,11 +81,11 @@ const PostDetail = () => {
                                 </Link>
 
                                 <div className="space-x-2">
-                                    <Link to="/"
+                                    <span
                                         className="px-3 py-1 border border-blue-300 rounded-full text-blue-300 text-xs uppercase font-semibold"
                                         style={{ fontSize: '10px' }}>
-                                        Techniques
-                                    </Link>
+                                        {post.status}
+                                    </span>
                                 </div>
                             </div>
 

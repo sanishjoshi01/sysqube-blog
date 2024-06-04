@@ -17,6 +17,8 @@ const Dashboard = () => {
     const [post, setPost] = useState([]);
     const [error, setError] = useState(null);
 
+    console.log(posts);
+
     //Post Created Message
     useEffect(() => {
         const message = sessionStorage.getItem('successMessage');
@@ -103,7 +105,6 @@ const Dashboard = () => {
     return (
         <>
             <Header />
-
             <div className="flex-1 text-gray-900 max-w-6xl m-auto p-4">
                 <h1 className="text-3xl font-bold mb-6">Dashboard</h1>
 
@@ -112,10 +113,19 @@ const Dashboard = () => {
                         <h2 className="text-xl font-normal mb-2">Total Posts</h2>
                         <p className="text-gray-700 text-7xl font-bold">{posts.length}</p>
                     </div>
-                    {/* <div class="bg-white p-6 rounded-lg shadow-lg transform transition duration-500 hover:scale-105 hover:shadow-xl text-center">
-                        <h2 class="text-xl font-normal mb-2">Rece Posts</h2>
-                        <p class="text-gray-700 text-7xl font-bold">{posts.length}</p>
-                    </div> */}
+                    <div class="bg-white p-6 rounded-lg shadow-lg transform transition duration-500 hover:scale-105 hover:shadow-xl text-center">
+                        <h2 class="text-xl font-normal mb-2">No. of Drafts Posts</h2>
+                        <p class="text-gray-700 text-7xl font-bold">{
+                            posts.filter((post) => post.status === 'draft').length
+
+                        }</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-lg transform transition duration-500 hover:scale-105 hover:shadow-xl text-center">
+                        <h2 class="text-xl font-normal mb-2">No. of Published Post</h2>
+                        <p class="text-gray-700 text-7xl font-bold">{
+                            posts.filter((post) => post.status === 'published').length
+                        }</p>
+                    </div>
                 </div>
             </div>
             {successMessage && (
@@ -146,25 +156,46 @@ const Dashboard = () => {
                                 (<table className="min-w-full bg-white border border-gray-200">
                                     <thead>
                                         <tr className="bg-gray-100">
-                                            <th className="border border-gray-200 px-4 py-2">Image</th>
-                                            <th className="border border-gray-200 px-4 py-2">Title</th>
-                                            <th className="border border-gray-200 px-4 py-2">Description</th>
-                                            <th className="border border-gray-200 px-4 py-2">Last Updated</th>
-                                            <th className="border border-gray-200 px-4 py-2">Actions</th>
+                                            <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Image</th>
+                                            <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Title</th>
+                                            <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Description</th>
+                                            <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Last Updated</th>
+                                            <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Status</th>
+                                            <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Actions</th>
                                         </tr>
                                     </thead>
 
                                     <tbody>
                                         {posts.map((post) => (
                                             <tr key={post.id}>
-                                                <td className="border border-gray-200 px-4 py-2 flex items-center justify-center">
+                                                <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm flex items-center justify-center">
                                                     <img src={`http://127.0.0.1:8000/storage/${post.image}`} alt="ss" width={80} />
 
                                                 </td>
-                                                <td className="border border-gray-200 px-4 py-2">{post.title}</td>
-                                                <td className="border border-gray-200 px-4 py-2">{post.description.slice(0, 50)}{post.description.length > 50 ? '...' : ''}</td>
-                                                <td className="border border-gray-200 px-4 py-2">{new Date(post.published_at.slice(0, 11)).toDateString()}</td>
-                                                <td className="border border-gray-200 px-4 py-2">
+                                                <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">{post.title}</td>
+                                                <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">{post.description.slice(0, 50)}{post.description.length > 50 ? '...' : ''}</td>
+                                                <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">{new Date(post.published_at.slice(0, 11)).toDateString()}</td>
+                                                {post.status === 'published' ?
+                                                    (<td class="px-5 py-5 border-b border-gray-200 bg-white text-sm text-center">
+                                                        <span
+                                                            className="relative inline-block px-3 py-1 font-semibold text-green-900 leading-tight">
+                                                            <span aria-hidden
+                                                                className="absolute inset-0 bg-green-200 opacity-50 rounded-full"></span>
+                                                            <span className="relative">Published</span>
+                                                        </span>
+                                                    </td>)
+                                                    :
+                                                    (<td class="px-5 py-5 bg-white text-sm text-center">
+                                                        <span
+                                                            class="relative inline-block px-3 py-1 font-semibold text-red-900 leading-tight">
+                                                            <span aria-hidden
+                                                                class="absolute inset-0 bg-red-200 opacity-50 rounded-full"></span>
+                                                            <span class="relative">Draft</span>
+                                                        </span>
+                                                    </td>)
+                                                }
+
+                                                <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                                                     <div className="flex justify-center">
                                                         <Link
                                                             to={`/posts/${post.slug}`}

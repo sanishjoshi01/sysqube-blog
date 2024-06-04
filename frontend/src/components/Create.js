@@ -11,6 +11,7 @@ const Create = () => {
     const [title, setTitle] = useState('');
     const [slug, setSlug] = useState('');
     const [image, setImage] = useState('');
+    const [status, setStatus] = useState();
     const [excerpt, setExcerpt] = useState('');
     const [description, setDescription] = useState('');
     const [posts, setPosts] = useState([]);
@@ -24,6 +25,7 @@ const Create = () => {
                 title,
                 slug,
                 image,
+                status,
                 excerpt,
                 description
             },
@@ -37,6 +39,7 @@ const Create = () => {
             setTitle('');
             setSlug('');
             setImage('');
+            setStatus('');
             setExcerpt('');
             setDescription('');
             setError(null);
@@ -93,6 +96,19 @@ const Create = () => {
                 </div>
 
                 <div className="mb-5">
+                    <label htmlFor="status" className="block mb-2 text-sm font-medium text-gray-900">Status</label>
+                    <select
+                        name="status"
+                        id="status"
+                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block py-2.5 px-3.5"
+                        onChange={(e) => setStatus(e.target.value)}
+                    >
+                        <option value="published">Published</option>
+                        <option value="draft">Draft</option>
+                    </select>
+                </div>
+
+                <div className="mb-5">
                     <label htmlFor="excerpt" className="block mb-2 text-sm font-medium text-gray-900">Excerpt</label>
                     <textarea
                         type="text"
@@ -125,9 +141,9 @@ const Create = () => {
 
                     <button
                         type="submit"
-                        className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                        className="text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
                     >
-                        Submit
+                        Publish
                     </button>
                     <Link
                         to='/dashboard'

@@ -7,13 +7,13 @@ const Edit = ({ isOpen, onClose, post, onUpdate }) => {
     const { token } = useAuth();
     const [title, setTitle] = useState(post[0].title);
     const [slug, setSlug] = useState(post[0].slug);
+    const [status, setStatus] = useState([post[0].status]);
     const [image, setImage] = useState(null);
     const [excerpt, setExcerpt] = useState(post[0].excerpt);
     const [description, setDescription] = useState(post[0].description);
     const [error, setError] = useState(null);
 
     if (!isOpen) return null;
-    // console.log(image);
 
     const handleUpdatePost = async (id, e) => {
         e.preventDefault();
@@ -23,6 +23,7 @@ const Edit = ({ isOpen, onClose, post, onUpdate }) => {
                 title,
                 slug,
                 image,
+                status,
                 excerpt,
                 description,
                 _method: 'PATCH'
@@ -95,6 +96,21 @@ const Edit = ({ isOpen, onClose, post, onUpdate }) => {
                                 }}
                             />
                         </div>
+
+                        <div className="mb-5">
+                            <label htmlFor="status" className="block mb-2 text-sm font-medium text-gray-900">Status</label>
+                            <select
+                                name="status"
+                                id="status"
+                                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block py-2.5 px-3.5"
+                                value={status}
+                                onChange={(e) => setStatus(e.target.value)}
+                            >
+                                <option value="published">Published</option>
+                                <option value="draft">Draft</option>
+                            </select>
+                        </div>
+
                         <div className="mb-5">
                             <label htmlFor="title" className="block mb-2 text-sm font-medium text-gray-900">Excerpt</label>
                             <textarea

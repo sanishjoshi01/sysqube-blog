@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Post;
+use App\StatusEnum;
 use Illuminate\Support\Facades\Auth;
 
 class PostController extends Controller
@@ -11,12 +12,19 @@ class PostController extends Controller
     //All Posts
     public function index()
     {
-        return Post::with('user')->latest('published_at')->get();
+        return Post::with('user')
+            ->where('status', 'published')
+            ->latest('published_at')
+            ->get();
     }
 
     //Post Detail
     public function show(Post $post)
     {
+        if ($post->status !== 'published') {
+            return response()->json(['message' => 'Post not found'], 404);
+        }
+
         $post->load('user');
         return response()->json($post);
     }
@@ -41,6 +49,7 @@ class PostController extends Controller
             'title' => 'required|string|min:3|max:255',
             'slug' => 'required|string|min:3|max:255|unique:posts,slug',
             'image' => 'required|image',
+            'status' => 'required|in:published,draft',
             'excerpt' => 'required|string|min:3|max:255',
             'description' => 'required|string|min:10'
         ]);
@@ -55,6 +64,7 @@ class PostController extends Controller
                 'title' => $request->title,
                 'slug' => $request->slug,
                 'image' => $credentials['image'],
+                'status' => $request->status,
                 'excerpt' => $request->excerpt,
                 'description' => $request->description,
             ]);
@@ -93,6 +103,7 @@ class PostController extends Controller
             'title' => 'required|string|min:3|max:255',
             'slug' => 'required|string|min:3|max:255|unique:posts,slug,' . $post->id, //except this users 
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif',
+            'status' => 'required|in:published,draft',
             'excerpt' => 'required|string|min:3|max:255',
             'description' => 'required|string|min:10'
         ]);
@@ -111,6 +122,7 @@ class PostController extends Controller
 
         $post->title = $request->title;
         $post->slug = $request->slug;
+        $post->status = $request->status;
         $post->excerpt = $request->excerpt;
         $post->description = $request->description;
         $post->save();

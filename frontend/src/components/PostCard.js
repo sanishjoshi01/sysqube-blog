@@ -15,9 +15,12 @@ const PostCard = ({ post }) => {
                 <div className="mt-8 flex flex-col justify-between flex-grow">
                     <header>
                         <div className="space-x-2">
-                            <Link to="/"
+                            <span to="/"
                                 className="px-3 py-1 border border-blue-300 rounded-full text-blue-300 text-xs uppercase font-semibold"
-                                style={{ fontSize: '10px' }}>Techniques</Link>
+                                style={{ fontSize: '10px' }}
+                            >
+                                {post.status}
+                            </span>
                         </div>
 
                         <div className="mt-4">
