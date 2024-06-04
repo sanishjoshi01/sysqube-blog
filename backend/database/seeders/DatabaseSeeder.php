@@ -22,6 +22,7 @@ class DatabaseSeeder extends Seeder
 
         Post::factory(10)->make()->each(function ($post) use ($users) {
             $post->user_id = $users->random()->id;
+            $post->image = 'images/jCnTYWkniH1ZLLd4jBXMiSSbF5fhjDcgzB0QJput.png';
             $post->save();
         });
     }

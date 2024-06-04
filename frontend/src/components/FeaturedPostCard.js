@@ -8,7 +8,7 @@ const FeaturedPostCard = ({ featuredPost }) => {
             className="transition-colors duration-300 hover:bg-gray-100 border border-black border-opacity-0 hover:border-opacity-5 rounded-xl">
             <div className="py-6 px-5 lg:flex">
                 <div className="flex-1 lg:mr-8">
-                    <img src="./images/illustration-1.png" alt="Blog Post illustration" className="rounded-xl" />
+                    <img src={`http://127.0.0.1:8000/storage/${featuredPost.image}`} alt="Blog Post illustration" className="rounded-xl" />
                 </div>
 
                 <div className="flex-1 flex flex-col justify-between">

@@ -23,7 +23,7 @@ class PostFactory extends Factory
             'user_id' => null,
             'title' => $title,
             'slug' => Str::slug($title, '-'),
-            'image' => fake()->image(),
+            'image' => null,
             'excerpt' =>  implode(fake()->paragraphs(2)),
             'description' => implode(fake()->paragraphs(6)),
         ];

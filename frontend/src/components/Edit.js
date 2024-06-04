@@ -7,25 +7,29 @@ const Edit = ({ isOpen, onClose, post, onUpdate }) => {
     const { token } = useAuth();
     const [title, setTitle] = useState(post[0].title);
     const [slug, setSlug] = useState(post[0].slug);
+    const [image, setImage] = useState(null);
     const [excerpt, setExcerpt] = useState(post[0].excerpt);
     const [description, setDescription] = useState(post[0].description);
     const [error, setError] = useState(null);
 
     if (!isOpen) return null;
-    console.log(post);
+    // console.log(image);
 
     const handleUpdatePost = async (id, e) => {
         e.preventDefault();
 
         try {
-            const response = await axios.put(`/posts/${id}`, {
+            const response = await axios.post(`/posts/${id}`, {
                 title,
                 slug,
+                image,
                 excerpt,
-                description
+                description,
+                _method: 'PATCH'
             }, {
                 headers: {
-                    'Authorization': `Bearer ${token}`
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'multipart/form-data'
                 }
             });
 
@@ -45,12 +49,16 @@ const Edit = ({ isOpen, onClose, post, onUpdate }) => {
                             <RxCross1 />
                         </button>
                     </div>
-                    <form onSubmit={(e) => handleUpdatePost(post[0].id, e)}>
+                    <form
+                        onSubmit={(e) => handleUpdatePost(post[0].id, e)}
+                        encType={'multipart/form-data'}
+                    >
                         <div className="mb-5">
                             <label htmlFor="title" className="block mb-2 text-sm font-medium text-gray-900">Title</label>
                             <input
                                 type="text"
                                 id="title"
+                                name="title"
                                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                                 value={title}
                                 onChange={(e) => setTitle(e.target.value)}
@@ -61,9 +69,30 @@ const Edit = ({ isOpen, onClose, post, onUpdate }) => {
                             <input
                                 type="text"
                                 id="slug"
+                                name="slug"
                                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                                 value={slug}
                                 onChange={(e) => setSlug(e.target.value.replace(/\s+/g, '-'))}
+                            />
+                        </div>
+
+                        <div className="mb-5">
+                            <label htmlFor="title" className="block mb-2 text-sm font-medium text-gray-900">Image</label>
+                            <img
+                                src={`http://127.0.0.1:8000/storage/${post[0].image}`}
+                                alt="blog img"
+                                width={100}
+                            />
+
+                            <input
+                                type="file"
+                                id="image"
+                                name="image"
+                                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 mt-3"
+                                onChange={(e) => {
+                                    console.log(e.target.files[0])
+                                    setImage(e.target.files[0])
+                                }}
                             />
                         </div>
                         <div className="mb-5">
@@ -71,6 +100,7 @@ const Edit = ({ isOpen, onClose, post, onUpdate }) => {
                             <textarea
                                 type="text"
                                 id="excerpt"
+                                name="excerpt"
                                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                                 value={excerpt}
                                 onChange={(e) => setExcerpt(e.target.value)}
@@ -81,6 +111,7 @@ const Edit = ({ isOpen, onClose, post, onUpdate }) => {
                             <textarea
                                 type="text"
                                 id="description"
+                                name="description"
                                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                                 value={description}
                                 onChange={(e) => setDescription(e.target.value)}
@@ -98,7 +129,7 @@ const Edit = ({ isOpen, onClose, post, onUpdate }) => {
                                 type="submit"
                                 className="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
                             >
-                                Save</button>
+                                Update</button>
                             <button
                                 type="button"
                                 className="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900"

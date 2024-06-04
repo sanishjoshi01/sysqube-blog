@@ -51,6 +51,14 @@ const BlogList = () => {
     return (
         <>
             <Header />
+            <header className="max-w-xl mx-auto mt-10 text-center">
+                <h1 className="text-4xl">
+                    Latest <span className="text-blue-500">SysQube Technology</span> News
+                </h1>
+
+                <h2 className="inline-flex mt-2">By Sandesh Joshi<img src="../images/lary-head.svg"
+                    alt="Head of Lary the mascot" /></h2>
+            </header >
             {renderedPosts}
             <Footer />
         </>

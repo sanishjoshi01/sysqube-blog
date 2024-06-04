@@ -17,7 +17,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('api/dashboard', [PostController::class, 'dashboard']);
     Route::post('api/create', [PostController::class, 'create']);
     Route::delete('api/posts/{post}', [PostController::class, 'delete']);
-    Route::put('api/posts/{post}', [PostController::class, 'update']);
+    Route::patch('api/posts/{post}', [PostController::class, 'update']);
 });
 
 // Route::post('api/logout', [LoginController::class, 'logout'])

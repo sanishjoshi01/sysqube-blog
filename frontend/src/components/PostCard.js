@@ -9,7 +9,7 @@ const PostCard = ({ post }) => {
             className="transition-colors duration-300 hover:bg-gray-100 border border-black border-opacity-0 hover:border-opacity-5 rounded-xl">
             <div className="py-6 px-5 flex flex-col h-full">
                 <div>
-                    <img src="./images/illustration-1.png" alt="Blog Post illustration" className="rounded-xl" />
+                    <img src={`http://127.0.0.1:8000/storage/${post.image}`} alt="Blog Post illustration" className="rounded-xl" />
                 </div>
 
                 <div className="mt-8 flex flex-col justify-between flex-grow">
@@ -45,7 +45,7 @@ const PostCard = ({ post }) => {
                             <div className='ml-3' >
                                 <h5
                                     className="font-bold">
-                                    {post.user.name}
+                                    {post.user.name.length > 15 ? post.user.name.slice(0, 16) + '...' : ''}
                                 </h5>
                             </div>
                         </div>

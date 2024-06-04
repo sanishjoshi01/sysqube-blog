@@ -24,6 +24,14 @@ const Home = () => {
     return (
         <>
             <Header />
+            <header className="max-w-xl mx-auto mt-10 text-center">
+                <h1 className="text-4xl">
+                    Latest <span className="text-blue-500">SysQube Technology</span> News
+                </h1>
+
+                <h2 className="inline-flex mt-2">By Sandesh Joshi<img src="../images/lary-head.svg"
+                    alt="Head of Lary the mascot" /></h2>
+            </header >
             {successMessage && (
                 <div className="py-4 px-6 mb-4 text-green-800 bg-green-200 rounded-lg fixed bottom-1 right-1 z-50" role="alert">
                     {successMessage}

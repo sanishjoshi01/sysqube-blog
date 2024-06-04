@@ -40,17 +40,21 @@ class PostController extends Controller
         $credentials = $request->validate([
             'title' => 'required|string|min:3|max:255',
             'slug' => 'required|string|min:3|max:255|unique:posts,slug',
+            'image' => 'required|image',
             'excerpt' => 'required|string|min:3|max:255',
             'description' => 'required|string|min:10'
         ]);
 
         $user = Auth::user();
 
+        $credentials['image'] = request()->file('image')->store('images');
+
         if ($credentials) {
             Post::create([
                 'user_id' => $user->id,
                 'title' => $request->title,
                 'slug' => $request->slug,
+                'image' => $credentials['image'],
                 'excerpt' => $request->excerpt,
                 'description' => $request->description,
             ]);
@@ -88,6 +92,7 @@ class PostController extends Controller
         $request->validate([
             'title' => 'required|string|min:3|max:255',
             'slug' => 'required|string|min:3|max:255|unique:posts,slug,' . $post->id, //except this users 
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif',
             'excerpt' => 'required|string|min:3|max:255',
             'description' => 'required|string|min:10'
         ]);
@@ -96,12 +101,19 @@ class PostController extends Controller
             return response()->json(['message' => 'Unauthorized'], 403);
         }
 
-        $post->update([
-            'title' => $request->title,
-            'slug' => $request->slug,
-            'excerpt' => $request->excerpt,
-            'description' => $request->description,
-        ]);
+        if ($request->hasFile('image')) {
+            // $credentials['image'] = request()->file('image')->store('images');
+            $imagePath = $request->file('image')->store('images');
+            $post->image = $imagePath;
+        }
+
+        // $post->update($credentials);
+
+        $post->title = $request->title;
+        $post->slug = $request->slug;
+        $post->excerpt = $request->excerpt;
+        $post->description = $request->description;
+        $post->save();
 
         return response()->json(['message' => 'Post updated successfully', 'post' => $post]);
     }

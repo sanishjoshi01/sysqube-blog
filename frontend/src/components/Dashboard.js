@@ -3,6 +3,7 @@ import Footer from "./Footer";
 import axios from "../API";
 import { useEffect, useState } from "react";
 import { MdEditSquare, MdDelete } from "react-icons/md";
+import { IoEye } from "react-icons/io5";
 import { useAuth } from "../AuthContext";
 import { Link } from 'react-router-dom';
 import Edit from "./Edit";
@@ -102,6 +103,21 @@ const Dashboard = () => {
     return (
         <>
             <Header />
+
+            <div className="flex-1 text-gray-900 max-w-6xl m-auto p-4">
+                <h1 className="text-3xl font-bold mb-6">Dashboard</h1>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+                    <div className="bg-white p-6 rounded-lg shadow-lg transform transition duration-500 hover:scale-105 hover:shadow-xl text-center">
+                        <h2 className="text-xl font-normal mb-2">Total Posts</h2>
+                        <p className="text-gray-700 text-7xl font-bold">{posts.length}</p>
+                    </div>
+                    {/* <div class="bg-white p-6 rounded-lg shadow-lg transform transition duration-500 hover:scale-105 hover:shadow-xl text-center">
+                        <h2 class="text-xl font-normal mb-2">Rece Posts</h2>
+                        <p class="text-gray-700 text-7xl font-bold">{posts.length}</p>
+                    </div> */}
+                </div>
+            </div>
             {successMessage && (
                 <div className="py-4 px-6 mb-4 text-green-800 bg-green-200 rounded-lg fixed bottom-1 right-1 z-50" role="alert">
                     {successMessage}
@@ -114,9 +130,9 @@ const Dashboard = () => {
                     post={post}
                     onUpdate={handleUpdatePost}
                 />}
-            <div className="container mx-auto p-4">
+            <div className="container mx-auto p-4 max-w-6xl">
                 <div className="flex items-center justify-between">
-                    <h1 className="text-3xl font-bold mb-4">Dashboard</h1>
+                    <h1 className="text-3xl font-bold mb-4">Your Posts</h1>
                     <Link to="/create"
                         className="bg-green-500 text-white hover:bg-green-400 py-2 px-4 rounded-xl"
                     >
@@ -142,33 +158,40 @@ const Dashboard = () => {
                                         {posts.map((post) => (
                                             <tr key={post.id}>
                                                 <td className="border border-gray-200 px-4 py-2 flex items-center justify-center">
-                                                    {/* Hardcoded for now  */}
-                                                    <img src="../images/lary-head.svg" alt="" />
+                                                    <img src={`http://127.0.0.1:8000/storage/${post.image}`} alt="ss" width={80} />
+
                                                 </td>
                                                 <td className="border border-gray-200 px-4 py-2">{post.title}</td>
                                                 <td className="border border-gray-200 px-4 py-2">{post.description.slice(0, 50)}{post.description.length > 50 ? '...' : ''}</td>
                                                 <td className="border border-gray-200 px-4 py-2">{new Date(post.published_at.slice(0, 11)).toDateString()}</td>
-                                                <td className="border border-gray-200 px-4 py-2 flex items-center justify-center">
-                                                    <button
-                                                        className="bg-yellow-500 text-white px-4 py-1 rounded-md shadow-md hover:bg-yellow-600"
-                                                        onClick={() => {
-                                                            isOpen();
-                                                            handleEditPost(post.id);
-                                                        }}
-                                                    >
-                                                        <MdEditSquare />
-                                                    </button>
-                                                    <button
-                                                        className="bg-red-500 text-white px-4 py-1 ml-2 rounded-md shadow-md hover:bg-red-600"
-                                                        onClick={() => handleDeletePost(post.id)}
-                                                    >
-                                                        <MdDelete />
-                                                    </button>
+                                                <td className="border border-gray-200 px-4 py-2">
+                                                    <div className="flex justify-center">
+                                                        <Link
+                                                            to={`/posts/${post.slug}`}
+                                                            className="bg-gray-500 text-white px-4 py-2 ml-2 rounded-md shadow-md hover:bg-gray-600"
+                                                        >
+                                                            <IoEye />
+                                                        </Link>
+                                                        <button
+                                                            className="bg-gray-500 text-white px-4 py-2 ml-2 rounded-md shadow-md hover:bg-gray-600"
+                                                            onClick={() => {
+                                                                isOpen();
+                                                                handleEditPost(post.id);
+                                                            }}
+                                                        >
+                                                            <MdEditSquare />
+                                                        </button>
+                                                        <button
+                                                            className="bg-red-500 text-white px-4 py-2 ml-2 rounded-md shadow-md hover:bg-red-600"
+                                                            onClick={() => handleDeletePost(post.id)}
+                                                        >
+                                                            <MdDelete />
+                                                        </button>
+                                                    </div>
                                                 </td>
                                             </tr>
                                         ))}
                                     </tbody>
-
                                 </table>
                                 )}
                 </div>
