@@ -8,17 +8,20 @@ use Illuminate\Support\Facades\Auth;
 
 class PostController extends Controller
 {
+    //All Posts
     public function index()
     {
         return Post::with('user')->latest('published_at')->get();
     }
 
+    //Post Detail
     public function show(Post $post)
     {
         $post->load('user');
         return response()->json($post);
     }
 
+    //Dashboard
     public function dashboard()
     {
         $user = Auth::user();
@@ -31,13 +34,14 @@ class PostController extends Controller
         return response()->json($posts);
     }
 
+    //Creating Post
     public function create(Request $request)
     {
         $credentials = $request->validate([
-            'title' => 'required|string',
-            'slug' => 'required|string|unique:posts,slug',
-            'excerpt' => 'required|string',
-            'description' => 'required|string'
+            'title' => 'required|string|min:3|max:255',
+            'slug' => 'required|string|min:3|max:255|unique:posts,slug',
+            'excerpt' => 'required|string|min:3|max:255',
+            'description' => 'required|string|min:10'
         ]);
 
         $user = Auth::user();
@@ -61,6 +65,8 @@ class PostController extends Controller
         ]);
     }
 
+
+    //Deleting Post
     public function delete(Post $post)
     {
         if ($post->user_id !== Auth::id()) {
@@ -76,13 +82,14 @@ class PostController extends Controller
         ]);
     }
 
+    //Updating or Editing Post
     public function update(Request $request, Post $post)
     {
         $request->validate([
-            'title' => 'required|string',
-            'slug' => 'required|string|unique:posts,slug,' . $post->id,
-            'excerpt' => 'required|string',
-            'description' => 'required|string'
+            'title' => 'required|string|min:3|max:255',
+            'slug' => 'required|string|min:3|max:255|unique:posts,slug,' . $post->id, //except this users 
+            'excerpt' => 'required|string|min:3|max:255',
+            'description' => 'required|string|min:10'
         ]);
 
         if ($post->user_id !== Auth::id()) {

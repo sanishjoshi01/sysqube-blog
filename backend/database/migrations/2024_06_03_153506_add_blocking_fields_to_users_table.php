@@ -13,7 +13,6 @@ return new class extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             $table->boolean('is_blocked')->default(false);
-            $table->timestamp('blocked_at')->nullable();
         });
     }
 
@@ -24,7 +23,6 @@ return new class extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             $table->dropColumn('is_blocked');
-            $table->dropColumn('blocked_at');
         });
     }
 };

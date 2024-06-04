@@ -9,6 +9,7 @@ const Edit = ({ isOpen, onClose, post, onUpdate }) => {
     const [slug, setSlug] = useState(post[0].slug);
     const [excerpt, setExcerpt] = useState(post[0].excerpt);
     const [description, setDescription] = useState(post[0].description);
+    const [error, setError] = useState(null);
 
     if (!isOpen) return null;
     console.log(post);
@@ -30,7 +31,7 @@ const Edit = ({ isOpen, onClose, post, onUpdate }) => {
 
             onUpdate(response.data.post);
         } catch (error) {
-            console.error(error);
+            setError(error.response.data.errors);
         }
     };
 
@@ -85,14 +86,26 @@ const Edit = ({ isOpen, onClose, post, onUpdate }) => {
                                 onChange={(e) => setDescription(e.target.value)}
                             />
                         </div>
-                        {/* Repeat similar structure for other input fields */}
+
+                        {error && <p className='text-sm text-red-600 my-5 font-semibold'>{
+                            Object.keys(error).map((key) => (
+                                <p key={key}>{error[key].join(' ')}</p>
+                            ))
+                        }</p>}
+
                         <div className="flex justify-end gap-2">
                             <button
                                 type="submit"
                                 className="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
                             >
                                 Save</button>
-                            <button type="button" className="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900" onClick={onClose}>Cancel</button>
+                            <button
+                                type="button"
+                                className="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900"
+                                onClick={onClose}
+                            >
+                                Cancel
+                            </button>
                         </div>
                     </form>
                 </div>

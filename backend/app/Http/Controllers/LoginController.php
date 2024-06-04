@@ -22,16 +22,16 @@ class LoginController extends Controller
 
         $user = User::where('email', $credentials['email'])->first();
 
-        if ($user && $user->is_blocked && !$this->hasBlockExpired($user)) {
+        if ($user && $user->is_blocked) {
             return response()->json([
-                'message' => 'Your account is blocked due to multiple failed login attempts.'
+                'message' => 'Your account is blocked due to multiple failed login attempts.',
+                'user' => $user
             ], 403);
         }
 
         if ($this->hasTooManyLoginAttempts($request)) {
             if ($user) {
                 $user->is_blocked = true;
-                $user->blocked_at = now();
                 $user->save();
             }
 
@@ -43,10 +43,6 @@ class LoginController extends Controller
             $token = $user->createToken('auth_token')->plainTextToken;
 
             $this->clearLoginAttempts($request);
-
-            $user->is_blocked = false;
-            $user->blocked_at = null;
-            $user->save();
 
             return response()->json([
                 'message' => 'User logged in successfully.',
@@ -98,10 +94,5 @@ class LoginController extends Controller
             'message' => 'Too many attempts. Try again in ' . $seconds . ' seconds.',
             'retry_after' => $seconds
         ], 429);
-    }
-
-    protected function hasBlockExpired($user)
-    {
-        return $user->blocked_at && now()->diffInMinutes($user->blocked_at) > $this->decayMinutes;
     }
 }

@@ -32,7 +32,6 @@ const Register = () => {
         } catch (error) {
             if (error.response) {
                 console.log(error.response);
-
                 setError(error.response.data.errors);
             } else {
                 setError('An error occured. Please try again');
