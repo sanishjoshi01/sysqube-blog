@@ -11,7 +11,7 @@ const Create = () => {
     const [title, setTitle] = useState('');
     const [slug, setSlug] = useState('');
     const [image, setImage] = useState('');
-    const [status, setStatus] = useState();
+    const [status, setStatus] = useState('published');
     const [excerpt, setExcerpt] = useState('');
     const [description, setDescription] = useState('');
     const [posts, setPosts] = useState([]);
@@ -101,6 +101,7 @@ const Create = () => {
                         name="status"
                         id="status"
                         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block py-2.5 px-3.5"
+                        value={status}
                         onChange={(e) => setStatus(e.target.value)}
                     >
                         <option value="published">Published</option>

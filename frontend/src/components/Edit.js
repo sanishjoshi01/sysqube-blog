@@ -7,13 +7,14 @@ const Edit = ({ isOpen, onClose, post, onUpdate }) => {
     const { token } = useAuth();
     const [title, setTitle] = useState(post[0].title);
     const [slug, setSlug] = useState(post[0].slug);
-    const [status, setStatus] = useState([post[0].status]);
+    const [status, setStatus] = useState(post[0].status);
     const [image, setImage] = useState(null);
     const [excerpt, setExcerpt] = useState(post[0].excerpt);
     const [description, setDescription] = useState(post[0].description);
     const [error, setError] = useState(null);
 
     if (!isOpen) return null;
+    console.log(typeof post[0].status)
 
     const handleUpdatePost = async (id, e) => {
         e.preventDefault();
