@@ -13,7 +13,7 @@
 1. **AFTER XAMPP INSTALLATION**
    ```bash
    a. Run as admin XAMPP
-   b. Start both Apache and MySQL
+   b. Start MySQL
    c. If MySQL is running on ports other than '3307' then update the my.ini file.
    d. Create a database by clicking Admin in XAMPP for MySQL
    e. Database details are in **Update .env File**:
@@ -35,7 +35,13 @@
    composer install
    ```
 
-3. **Update `.env` File**:
+3. **Create `.env` File**:
+
+   ```bash
+   cp .env.example .env
+   ```
+
+4. **Update `.env` File**:
 
    ```plaintext
    APP_URL=http://localhost:8000
@@ -51,13 +57,13 @@
    FILESYSTEM_DISK=public
    ```
 
-4. **Run Migrations**:
+5. **Run Migrations**:
 
    ```bash
    php artisan migrate:fresh --seed
    ```
 
-5. **Run the Server**:
+6. **Run the Server**:
    ```bash
    php artisan serve
    ```
@@ -81,6 +87,26 @@
    ```bash
    npm start
    ```
+
+## App Usage
+
+```plaintext
+    1. You can use these credentials to login directly
+       (Must have run below code in the terminal to work)
+       php artisan migrate:fresh --seed
+
+       Credentials
+        - email: san@gmail.com
+        - password: sandesh
+    OR
+    2. Manually register the user.
+       (Auto logins the user after registration)
+
+    3. Click on Your Account to view the Dashboard or Logout from the system.
+    4. Create, Read, Delete, or Edit in the Dashboard
+    5. Set status to draft or published
+       (Draft posts are not visible in the system)
+```
 
 ## Summary
 

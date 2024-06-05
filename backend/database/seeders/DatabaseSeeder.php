@@ -20,6 +20,15 @@ class DatabaseSeeder extends Seeder
             'password' => Hash::make('password'),
         ]);
 
+        User::create([
+            'id' => 3,
+            'name' => 'san',
+            'email' => 'san@gmail.com',
+            'email_verified_at' => now(),
+            'password' => Hash::make('sandesh'),
+            'is_blocked' => false
+        ]);
+
         Post::factory(10)->make()->each(function ($post) use ($users) {
             $post->user_id = $users->random()->id;
             $post->image = 'images/jCnTYWkniH1ZLLd4jBXMiSSbF5fhjDcgzB0QJput.png';
