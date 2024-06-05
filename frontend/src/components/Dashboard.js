@@ -160,17 +160,20 @@ const Dashboard = () => {
                                             <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Title</th>
                                             <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Description</th>
                                             <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Last Updated</th>
-                                            <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Status</th>
-                                            <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Actions</th>
+                                            <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-center text-xs font-semibold text-gray-600 uppercase tracking-wider">Status</th>
+                                            <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-center text-xs font-semibold text-gray-600 uppercase tracking-wider">Actions</th>
                                         </tr>
                                     </thead>
 
                                     <tbody>
                                         {posts.map((post) => (
                                             <tr key={post.id}>
-                                                <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm flex items-center justify-center">
-                                                    <img src={`http://127.0.0.1:8000/storage/${post.image}`} alt="ss" width={80} />
-
+                                                <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                                    <img
+                                                        src={`http://127.0.0.1:8000/storage/${post.image}`} alt="post thumbnail"
+                                                        width={80}
+                                                        className="rounded-lg"
+                                                    />
                                                 </td>
                                                 <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">{post.title}</td>
                                                 <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">{post.description.slice(0, 50)}{post.description.length > 50 ? '...' : ''}</td>
@@ -185,7 +188,7 @@ const Dashboard = () => {
                                                         </span>
                                                     </td>)
                                                     :
-                                                    (<td class="px-5 py-5 bg-white text-sm text-center">
+                                                    (<td class="px-5 py-5 border-b border-gray-200 bg-white text-sm text-center">
                                                         <span
                                                             class="relative inline-block px-3 py-1 font-semibold text-red-900 leading-tight">
                                                             <span aria-hidden
@@ -199,24 +202,24 @@ const Dashboard = () => {
                                                     <div className="flex justify-center">
                                                         <Link
                                                             to={`/posts/${post.slug}`}
-                                                            className="bg-gray-500 text-white px-4 py-2 ml-2 rounded-md shadow-md hover:bg-gray-600"
+                                                            className="bg-blue-500 text-white px-4 py-2 ml-2 rounded-md shadow-md hover:bg-blue-600"
                                                         >
-                                                            <IoEye />
+                                                            <IoEye className="text-lg" />
                                                         </Link>
                                                         <button
-                                                            className="bg-gray-500 text-white px-4 py-2 ml-2 rounded-md shadow-md hover:bg-gray-600"
+                                                            className="bg-yellow-500 text-white px-4 py-2 ml-2 rounded-md shadow-md hover:bg-yellow-600"
                                                             onClick={() => {
                                                                 isOpen();
                                                                 handleEditPost(post.id);
                                                             }}
                                                         >
-                                                            <MdEditSquare />
+                                                            <MdEditSquare className="text-lg" />
                                                         </button>
                                                         <button
                                                             className="bg-red-500 text-white px-4 py-2 ml-2 rounded-md shadow-md hover:bg-red-600"
                                                             onClick={() => handleDeletePost(post.id)}
                                                         >
-                                                            <MdDelete />
+                                                            <MdDelete className="text-lg" />
                                                         </button>
                                                     </div>
                                                 </td>

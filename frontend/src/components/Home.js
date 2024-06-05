@@ -37,37 +37,35 @@ const Home = () => {
                     {successMessage}
                 </div>
             )}
-            <section className="relative flex-grow bg-gradient-to-r from-blue-500 via-indigo-600 to-purple-700 flex items-center justify-center text-white my-10">
-                <div className="absolute inset-0 overflow-hidden">
+            <div>
+                <aside className="relative overflow-hidden text-black rounded-lg sm:mx-16 mx-2 sm:py-16">
+                    <div className="relative z-10 max-w-screen-xl px-4  pb-20 pt-10 sm:py-24 mx-auto sm:px-6 lg:px-8">
+                        <div className="max-w-xl sm:mt-1 mt-80 space-y-8 text-center sm:text-right sm:ml-auto">
+                            <h2 className="text-4xl font-bold sm:text-4xl">
+                                Welcome to SysQube Blog
+                                <span className="hidden sm:block text-xl">
+                                    Your source for the latest in technology news and tutorials.
+                                </span>
+                            </h2>
 
-                    <div className="absolute inset-0 bg-gradient-to-r from-blue-500 via-indigo-600 to-purple-700 opacity-60"></div>
-                </div>
-                <div className="container mx-auto text-center py-20 relative z-10">
-                    <h2 className="text-5xl md:text-7xl font-bold mb-4 animate-fade-in-down">
-                        Welcome to SysQube Blog
-                    </h2>
-                    <p className="text-xl md:text-3xl text-gray-200 mb-8 max-w-2xl mx-auto animate-fade-in-up">
-                        Your source for the latest in technology news and tutorials.
-                    </p>
-                    <Link to="/posts" className="bg-white text-blue-600 py-3 px-6 rounded-full shadow-lg hover:bg-gray-100 transition-transform transform hover:scale-105">
-                        Read Our Posts
-                    </Link>
-                </div>
-            </section>
+                            <Link
+                                to='/posts'
+                                className="inline-flex text-white items-center px-6 py-3 font-medium bg-rose-500 rounded-lg hover:opacity-75">
+                                Read Our Blogs
+                            </Link>
+                        </div>
+                    </div>
 
+                    <div className="absolute inset-0 w-full sm:my-20 sm:pt-1 pt-12 h-full ">
+                        <img className="w-96" src="https://i.ibb.co/5BCcDYB/Remote2.png" alt="logo" />
+                    </div>
+                </aside>
+            </div>
 
-            {/* About Section */}
-            <section id="about" className="bg-white py-16">
-                <div className="container mx-auto text-center">
-                    <h2 className="text-3xl font-bold mb-8">About Us</h2>
-                    <p className="text-lg text-gray-700 max-w-3xl mx-auto">
-                        We are passionate about technology and love sharing our knowledge with the world. From in-depth tutorials to the latest news, we aim to provide valuable content for our readers.
-                    </p>
-                </div>
-            </section>
             <Footer />
         </>
     );
+
 }
 
 export default Home;
