@@ -21,6 +21,8 @@ COPY .env.example .env
 
 RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
 
+COPY apache-config.conf /etc/apache2/sites-available/000-default.conf
+
 EXPOSE 80
 
 CMD ["apache2-foreground"]
